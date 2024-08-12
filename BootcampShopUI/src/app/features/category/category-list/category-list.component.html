@@ -1,0 +1,159 @@
+<div class="container">
+  <h1 class="mt-2">Category List</h1>
+
+  <div class="d-flex justify-content-end">
+    <button
+      type="button"
+      class="btn btn-primary"
+      data-toggle="modal"
+      (click)="resetForm()"
+      data-target="#categoryModal"
+    >
+      Add Category
+    </button>
+  </div>
+
+  <div
+    class="modal fade"
+    id="deleteQuestionModal"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="deleteModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="deleteModalLabel">Delete Category</h5>
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>Do you really want to delete this category?</p>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-primary"
+            data-dismiss="modal"
+            (click)="deleteCategory()"
+          >
+            Yes
+          </button>
+          <button type="button" class="btn btn-danger" data-dismiss="modal">
+            No
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div
+    class="modal fade"
+    id="categoryModal"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="categoryModalTitle"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="categoryModalLongTitle">Category</h5>
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form [formGroup]="categoryForm">
+            <div class="form-group">
+              <label for="categoryNameInput">Category Name</label>
+              <input
+                type="text"
+                class="form-control"
+                id="categoryNameInput"
+                aria-describedby="categoryName"
+                placeholder="Enter category name"
+                formControlName="name"
+              />
+            </div>
+            <div class="form-group">
+              <label for="categoryDescription">Description</label>
+              <input
+                type="text"
+                class="form-control"
+                id="categoryDescription"
+                placeholder="Description"
+                formControlName="description"
+              />
+            </div>
+            <button
+              type="submit"
+              class="btn btn-primary"
+              (click)="onSubmit()"
+              data-dismiss="modal"
+            >
+              Submit
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  @if (categories) {
+    <table class="table mt-2">
+      <thead>
+        <tr>
+          <th scope="col" class="text-center">Name</th>
+          <th scope="col" class="text-center">Description</th>
+          <th scope="col" class="text-center">Update</th>
+          <th scope="col" class="text-center">Delete</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (category of categories; track $index) {
+          <tr>
+            <td class="text-center">{{ category.name }}</td>
+            <td class="text-center">{{ category.description }}</td>
+            <td class="text-center">
+              <button
+                type="button"
+                class="btn btn-primary"
+                data-toggle="modal"
+                data-target="#categoryModal"
+                (click)="getCategoryValue(category)"
+              >
+                Update
+              </button>
+            </td>
+            <td class="text-center">
+              <button
+                type="button"
+                class="btn btn-danger"
+                data-toggle="modal"
+                data-target="#deleteQuestionModal"
+                (click)="getCategoryValue(category)"
+              >
+                Delete
+              </button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  } @else {
+    <p>Categories not available</p>
+  }
+</div>

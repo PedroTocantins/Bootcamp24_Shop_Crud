@@ -1,0 +1,197 @@
+<div class="container">
+  <h1 class="mt-">Product List</h1>
+
+  <div class="d-flex justify-start-end">
+    <button
+      type="button"
+      class="btn btn-primary"
+      data-toggle="modal"
+      (click)="resetForm()"
+      data-target="#exampleModalCenter"
+    >
+      Add Product
+    </button>
+  </div>
+
+  <div
+    class="modal fade"
+    id="deleteQuestionModal"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>Do you realy want to delete this product?</p>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-primary"
+            data-dismiss="modal"
+            (click)="deleteProduct()"
+          >
+            Yes
+          </button>
+          <button type="button" class="btn btn-danger" data-dismiss="modal">
+            No
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div
+    class="modal fade"
+    id="exampleModalCenter"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Product</h5>
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form [formGroup]="productForm">
+            <div class="form-group">
+              <label for="productNameInput">Product Name</label>
+              <input
+                type="text"
+                class="form-control"
+                id="productNameInput"
+                aria-describedby="productName"
+                placeholder="Enter product name"
+                formControlName="name"
+              />
+            </div>
+            <div class="form-group">
+              <label for="productDescription">Description</label>
+              <input
+                type="text"
+                class="form-control"
+                id="productDescription"
+                placeholder="Description"
+                formControlName="description"
+              />
+            </div>
+            <div class="form-group">
+              <label for="productPrice">Price</label>
+              <input
+                type="number"
+                class="form-control"
+                id="productPrice"
+                placeholder="Price"
+                formControlName="price"
+              />
+            </div>
+            <div class="form-group">
+              <label for="productPrice">Stock</label>
+              <input
+                type="number"
+                class="form-control"
+                id="productStock"
+                placeholder="Stock"
+                formControlName="stock"
+              />
+            </div>
+            <div class="form-group">
+              <label for="inputGroupSelect02">Categories</label>
+              <select
+                class="custom-select"
+                id="inputGroupSelect02"
+                formControlName="categoryId"
+                placeholder="Categories"
+              >
+                <option selected>Choose...</option>
+                @for (category of categories; track $index) {
+                <option value="{{ category.id }}">{{ category.name }}</option>
+                }
+              </select>
+            </div>
+            <button
+              type="submit"
+              class="btn btn-primary"
+              (click)="onSubmit()"
+              data-dismiss="modal"
+            >
+              Submit
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  @if (products) {
+  <table class="table mt-2">
+    <thead>
+      <tr>
+        <th scope="col" class="text-center">Name</th>
+        <th scope="col" class="text-center">Description</th>
+        <th scope="col" class="text-center">Price</th>
+        <th scope="col" class="text-center">Stock</th>
+        <th scope="col" class="text-center">Update</th>
+        <th scope="col" class="text-center">Delete</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (product of products; track product.id) {
+      <tr>
+        <td class="text-center">{{ product.name }}</td>
+        <td class="text-center">{{ product.description }}</td>
+        <td class="text-center">{{ product.price }}</td>
+        <td class="text-center">{{ product.stock }}</td>
+        <td class="text-center">
+          <button
+            type="button"
+            class="btn btn-primary"
+            data-toggle="modal"
+            data-target="#exampleModalCenter"
+            (click)="getProducValue(product)"
+          >
+            Update
+          </button>
+        </td>
+        <td class="text-center">
+          <button
+            type="button"
+            class="btn btn-danger"
+            data-toggle="modal"
+            data-target="#deleteQuestionModal"
+            (click)="getProducValue(product)"
+          >
+            Delete
+          </button>
+        </td>
+      </tr>
+      }
+    </tbody>
+  </table>
+  } @else {
+  <p>Products not available</p>
+  }
+</div>
